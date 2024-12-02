@@ -39,6 +39,8 @@ app.use(cors());
 app.use(morgan('short'));
 app.use(express.json());
 
+app.set('json spaces', 3); // pretty print JSON responses 
+
 // Route to get all lessons
 app.get('/collections/lessons', async (req, res, next) => {
   try {
