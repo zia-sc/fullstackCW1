@@ -7,7 +7,6 @@
     <title>Vue.js Afterschool Learnings</title>
     <link rel="stylesheet" href="style.css">
 
-
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -33,7 +32,7 @@
             </div>
 
             <div v-if="showLessons">
-                <div v-for="lesson in filteredLessons" :key="lesson.title">
+                <div v-for="lesson in filteredLessons" :key="lesson.title" class="lesson-card">
                     <h2>{{ lesson.title }}</h2>
                     <img :src="lesson.image" :alt="lesson.title" class="lesson-image" />
                     <p>{{ lesson.description }}</p>
@@ -80,39 +79,9 @@
                     <label for="zip">Zip Code:</label>
                     <input type="text" id="zip" v-model="order.zip" required />
                 </div>
-                <div>
-                    <label>Are you a student?</label>
-                    <input type="radio" id="yes" value="Yes" v-model="order.isStudent" />
-                    <label for="yes">Yes</label>
-                    <input type="radio" id="no" value="No" v-model="order.isStudent" />
-                    <label for="no">No</label>
-                </div>
-                <div>
-                    <label>Learning Method:</label>
-                    <input type="radio" id="online" value="Online Learning" v-model="order.learningMethod" />
-                    <label for="online">Online Learning</label>
-                    <input type="radio" id="inPerson" value="In-person Learning" v-model="order.learningMethod" />
-                    <label for="inPerson">In-person Learning</label>
-                </div>
                 <button type="submit">Complete Registration</button>
                 <button @click="toggleCheckout">Go back to Home</button>
             </form>
-
-            <div v-if="order.firstName">
-                <h3>Registration Summary</h3>
-                <p><strong>First Name:</strong> {{ order.firstName }}</p>
-                <p><strong>Last Name:</strong> {{ order.lastName }}</p>
-                <p><strong>Address:</strong> {{ order.address }}</p>
-                <p><strong>City:</strong> {{ order.city }}</p>
-                <p><strong>State:</strong> {{ order.state }}</p>
-                <p><strong>Zip Code:</strong> {{ order.zip }}</p>
-                <p><strong>Are you a student?:</strong> {{ order.isStudent }}</p>
-                <p><strong>Learning Method:</strong> {{ order.learningMethod }}</p>
-                <h4>Your Cart</h4>
-                <ul>
-                    <li v-for="item in cart" :key="item.title">{{ item.title }}</li>
-                </ul>
-            </div>
         </section>
     </div>
 
@@ -132,9 +101,7 @@
                     address: '',
                     city: '',
                     state: '',
-                    zip: '',
-                    isStudent: '',
-                    learningMethod: ''
+                    zip: ''
                 },
                 sortOrder: null,
             },
