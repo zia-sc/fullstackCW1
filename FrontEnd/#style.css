@@ -1,0 +1,188 @@
+/* Reset some default styles */
+body, h1, h2, p, button {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* General body styling */
+body {
+    background-color: #f3f4f6;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #009688; /* Teal background */
+    color: white;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+header img.logo {
+    height: 50px;
+    width: auto;
+    margin-right: 20px;
+}
+
+header button {
+    background-color: #ffffff;
+    color: #009688;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+header button:hover {
+    background-color: #00796b; /* Darker teal on hover */
+    color: white;
+}
+
+/* Main content area */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Lesson Cards */
+.lesson-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-card:hover {
+    transform: scale(1.03); /* Slight zoom effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.lesson-card img.lesson-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.lesson-card h2 {
+    font-size: 20px;
+    color: #009688; /* Teal for the title */
+    margin-top: 10px;
+    text-align: center;
+}
+
+.lesson-card p {
+    color: #555;
+    font-size: 14px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.lesson-card button {
+    background-color: #009688; /* Teal button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.lesson-card button:hover {
+    background-color: #00796b; /* Darker teal on hover */
+}
+
+/* Availability/Stock message styles */
+.lesson-card span {
+    font-weight: bold;
+    color: #ff5722; /* Vibrant red for out-of-stock message */
+}
+
+/* Checkout Section */
+section {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    font-size: 24px;
+    color: #009688; /* Teal for the header */
+    margin-bottom: 20px;
+}
+
+section input,
+section select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+section input:focus,
+section select:focus {
+    border-color: #009688; /* Teal border on focus */
+}
+
+section button {
+    background-color: #009688; /* Teal button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+section button:hover {
+    background-color: #00796b; /* Darker teal on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .lesson-card {
+        padding: 15px;
+    }
+
+    .lesson-card h2 {
+        font-size: 18px;
+    }
+
+    .lesson-card button {
+        width: 100%;
+        padding: 12px;
+    }
+}

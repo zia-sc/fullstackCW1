@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js Afterschool Learnings</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <img src="images/logo1.png" alt="Website Logo" class="logo">
+            <h1>{{ pageTitle }}</h1>
+            <button @click="toggleCheckout">
+                {{ cart.length }} <span class="fas fa-cart-plus"></span> Checkout
+            </button>
+        </header>
+
+        <main v-if="!showCheckoutPage">
+            <div>
+                <input type="text" v-model="searchQuery" placeholder="Search for lessons by title..." class="search-bar" />
+                <button @click="sortByPrice('asc')">Sort by Price (Asc)</button>
+                <button @click="sortByPrice('desc')">Sort by Price (Desc)</button>
+            </div>
+
+            <div v-if="showLessons">
+                <div v-for="lesson in filteredLessons" :key="lesson.title">
+                    <h2>{{ lesson.title }}</h2>
+                    <img :src="lesson.image" :alt="lesson.title" class="lesson-image" />
+                    <p>{{ lesson.description }}</p>
+                    <p>Price: ${{ lesson.price }}</p>
+                    <p>Space Available: {{ lesson.availableInventory }}</p>
+                    <p>Rating:
+                        <span v-for="n in lesson.rating"><i class="fa-solid fa-star"></i></span>
+                        <span v-for="n in 5 - lesson.rating"><i class="fa-regular fa-star"></i></span>
+                    </p>
+                    <span v-if="itemsLeft(lesson) === 0">No space available!</span>
+                    <span v-else-if="itemsLeft(lesson) === 4">Only 4 spaces available</span>
+                    <span v-else-if="itemsLeft(lesson) > 0">Only {{ itemsLeft(lesson) }} left!</span>
+                    <button @click="addToCart(lesson)" :disabled="!canAddToCart(lesson)">
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <section v-if="showCheckoutPage">
+            <h2>Registration Page</h2>
+            <form @submit.prevent="submitForm">
+                <div>
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" v-model="order.firstName" required />
+                </div>
+                <div>
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" v-model="order.lastName" required />
+                </div>
+                <div>
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" v-model="order.address" required />
+                </div>
+                <div>
+                    <label for="city">City:</label>
+                    <input type="text" id="city" v-model="order.city" required />
+                </div>
+                <div>
+                    <label for="state">State:</label>
+                    <input type="text" id="state" v-model="order.state" required />
+                </div>
+                <div>
+                    <label for="zip">Zip Code:</label>
+                    <input type="text" id="zip" v-model="order.zip" required />
+                </div>
+                <div>
+                    <label>Are you a student?</label>
+                    <input type="radio" id="yes" value="Yes" v-model="order.isStudent" />
+                    <label for="yes">Yes</label>
+                    <input type="radio" id="no" value="No" v-model="order.isStudent" />
+                    <label for="no">No</label>
+                </div>
+                <div>
+                    <label>Learning Method:</label>
+                    <input type="radio" id="online" value="Online Learning" v-model="order.learningMethod" />
+                    <label for="online">Online Learning</label>
+                    <input type="radio" id="inPerson" value="In-person Learning" v-model="order.learningMethod" />
+                    <label for="inPerson">In-person Learning</label>
+                </div>
+                <button type="submit">Complete Registration</button>
+                <button @click="toggleCheckout">Go back to Home</button>
+            </form>
+
+            <div v-if="order.firstName">
+                <h3>Registration Summary</h3>
+                <p><strong>First Name:</strong> {{ order.firstName }}</p>
+                <p><strong>Last Name:</strong> {{ order.lastName }}</p>
+                <p><strong>Address:</strong> {{ order.address }}</p>
+                <p><strong>City:</strong> {{ order.city }}</p>
+                <p><strong>State:</strong> {{ order.state }}</p>
+                <p><strong>Zip Code:</strong> {{ order.zip }}</p>
+                <p><strong>Are you a student?:</strong> {{ order.isStudent }}</p>
+                <p><strong>Learning Method:</strong> {{ order.learningMethod }}</p>
+                <h4>Your Cart</h4>
+                <ul>
+                    <li v-for="item in cart" :key="item.title">{{ item.title }}</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        var webstore = new Vue({
+            el: '#app',
+            data: {
+                pageTitle: 'NextGen Learning',
+                cart: [],
+                showCheckoutPage: false,
+                showLessons: true,
+                lessons: [],
+                searchQuery: '',
+                order: {
+                    firstName: '',
+                    lastName: '',
+                    address: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    isStudent: '',
+                    learningMethod: ''
+                },
+                sortOrder: null,
+            },
+            created() {
+                this.fetchLessons();
+            },
+            methods: {
+                async fetchLessons() {
+                    try {
+                        const response = await fetch('http://localhost:3000/collections/lessons');
+                        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                        this.lessons = await response.json();
+                    } catch (error) {
+                        console.error('Error fetching lessons:', error);
+                        alert('Failed to load lessons. Please try again later.');
+                    }
+                },
+                addToCart(lesson) {
+                    if (this.canAddToCart(lesson)) {
+                        this.cart.push(lesson);
+                        lesson.availableInventory--;
+                    }
+                },
+                canAddToCart(lesson) {
+                    return lesson.availableInventory > 0;
+                },
+                itemsLeft(lesson) {
+                    return lesson.availableInventory - this.cart.filter(item => item.title === lesson.title).length;
+                },
+                toggleCheckout() {
+                    this.showCheckoutPage = !this.showCheckoutPage;
+                },
+                submitForm() {
+                    alert('Registration Completed!');
+                    this.showCheckoutPage = false;
+                },
+                sortByPrice(order) {
+                    this.sortOrder = order;
+                },
+            },
+            computed: {
+                filteredLessons() {
+                    let lessonsToShow = this.lessons.filter(lesson =>
+                        lesson.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                    if (this.sortOrder === 'asc') {
+                        return lessonsToShow.sort((a, b) => a.price - b.price);
+                    } else if (this.sortOrder === 'desc') {
+                        return lessonsToShow.sort((a, b) => b.price - a.price);
+                    } else {
+                        return lessonsToShow;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
