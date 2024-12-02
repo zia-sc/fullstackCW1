@@ -1,8 +1,9 @@
 /* Reset some default styles */
-body, h1, h2, p, button {
+body, h1, h2, p, button, input, select {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
 }
 
 /* General body styling */
@@ -26,7 +27,6 @@ header {
 
 header h1 {
     font-size: 24px;
-    margin: 0;
 }
 
 header img.logo {
@@ -36,6 +36,9 @@ header img.logo {
 }
 
 header button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #ffffff;
     color: #009688;
     border: none;
@@ -43,19 +46,40 @@ header button {
     cursor: pointer;
     font-size: 16px;
     border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header button span {
+    margin-left: 5px;
 }
 
 header button:hover {
-    background-color: #00796b; /* Darker teal on hover */
+    background-color: #00796b; /* Darker teal */
     color: white;
 }
 
-/* Main content area */
+/* Main Content Styling */
 main {
     padding: 20px;
     max-width: 1200px;
     margin: 20px auto;
+}
+
+/* Search Bar */
+.search-bar {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: #009688;
 }
 
 /* Lesson Cards */
@@ -65,15 +89,13 @@ main {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .lesson-card:hover {
-    transform: scale(1.03); /* Slight zoom effect on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .lesson-card img.lesson-image {
@@ -84,20 +106,18 @@ main {
 
 .lesson-card h2 {
     font-size: 20px;
-    color: #009688; /* Teal for the title */
+    color: #009688;
     margin-top: 10px;
-    text-align: center;
 }
 
 .lesson-card p {
     color: #555;
     font-size: 14px;
     margin: 5px 0;
-    text-align: center;
 }
 
 .lesson-card button {
-    background-color: #009688; /* Teal button */
+    background-color: #009688;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -109,21 +129,20 @@ main {
 }
 
 .lesson-card button:hover {
-    background-color: #00796b; /* Darker teal on hover */
+    background-color: #00796b;
 }
 
-/* Availability/Stock message styles */
 .lesson-card span {
     font-weight: bold;
-    color: #ff5722; /* Vibrant red for out-of-stock message */
+    color: #ff5722; /* Red for warnings */
 }
 
-/* Checkout Section */
+/* Registration Section */
 section {
     background-color: white;
     padding: 20px;
     margin: 20px auto;
-    width: 80%;
+    width: 100%;
     max-width: 600px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -131,15 +150,21 @@ section {
 
 section h2 {
     font-size: 24px;
-    color: #009688; /* Teal for the header */
+    color: #009688;
     margin-bottom: 20px;
+}
+
+section form label {
+    display: block;
+    font-weight: bold;
+    margin: 10px 0 5px;
 }
 
 section input,
 section select {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
+    margin: 5px 0 15px;
     border-radius: 4px;
     border: 1px solid #ccc;
     transition: border-color 0.3s ease;
@@ -147,30 +172,37 @@ section select {
 
 section input:focus,
 section select:focus {
-    border-color: #009688; /* Teal border on focus */
+    border-color: #009688;
 }
 
 section button {
-    background-color: #009688; /* Teal button */
+    background-color: #009688;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 4px;
     font-size: 16px;
-    margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
 section button:hover {
-    background-color: #00796b; /* Darker teal on hover */
+    background-color: #00796b;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
-        text-align: center;
+        align-items: center;
+    }
+
+    header img.logo {
+        margin-bottom: 10px;
+    }
+
+    main {
+        padding: 15px;
     }
 
     .lesson-card {
@@ -184,5 +216,9 @@ section button:hover {
     .lesson-card button {
         width: 100%;
         padding: 12px;
+    }
+
+    section {
+        width: 90%;
     }
 }
